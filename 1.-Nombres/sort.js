@@ -1,6 +1,6 @@
 function sortListItems(evt) {
     var listItem, index, areWordsUnsorted, listItems, needSwitch, sortType, switchesCounter = 0;
-    listItem = document.getElementById("id01");
+    listItem = document.getElementById("names");
     areWordsUnsorted = true;
     sortType = evt.currentTarget.sortType; //asc o desc
     while (areWordsUnsorted) {
