@@ -1,51 +1,38 @@
-function s(evt) {
-    var l, i, sw, b, debeSw, d, swC = 0;
-    l = document.getElementById("id01");
-    sw = true;
-    //Define la dección de la ordenación, ascendente, descendente 
-    d = evt.currentTarget.ord; //asc o desc
-    //Bucle hasta que finalice la ordenación
-    while (sw) {
-      // por defecto el switching se coloca a false
-      sw = false;
-      b = l.getElementsByTagName("LI");
-      //Recorremos todos los items
-      for (i = 0; i < (b.length - 1); i++) {
-        // Por defecto no se debe cambiar
-        debeSw = false;
-        // Basados en la direccion asc o desc decidimos realizar la ordenación
-        if (d == "asc") {
-          if (b[i].innerHTML.toLowerCase() > b[i + 1].innerHTML.toLowerCase()) {
-            //Comprobación alfabética
-            debeSw= true;
+function sortListItems(evt) {
+    var listItem, index, areWordsUnsorted, listItems, needSwitch, sortType, switchesCounter = 0;
+    listItem = document.getElementById("id01");
+    areWordsUnsorted = true;
+    sortType = evt.currentTarget.sortType; //asc o desc
+    while (areWordsUnsorted) {
+      areWordsUnsorted = false;
+      listItems = listItem.getElementsByTagName("LI");
+      for (index = 0; index < (listItems.length - 1); index++) {
+        needSwitch = false;
+        if (sortType == "asc") {
+          if (listItems[index].innerHTML.toLowerCase() > listItems[index + 1].innerHTML.toLowerCase()) {
+            needSwitch= true;
             break;
           }
-        } else if (d == "desc") {
-          if (b[i].innerHTML.toLowerCase() < b[i + 1].innerHTML.toLowerCase()) {
-            ///Comprobación alfabética
-            debeSw= true;
+        } else if (sortType == "desc") {
+          if (listItems[index].innerHTML.toLowerCase() < listItems[index + 1].innerHTML.toLowerCase()) {
+            needSwitch= true;
             break;
           }
         }
       }
-      if (debeSw) {
-        // Realizamos el cambio del elemento marcado
-        b[i].parentNode.insertBefore(b[i + 1], b[i]);
-        sw = true;
-        // Cada vez que se haya realizado un cambio aumentamos el contador
-        swC ++;
+      if (needSwitch) {
+        listItems[index].parentNode.insertBefore(listItems[index + 1], listItems[index]);
+        areWordsUnsorted = true;
+        switchesCounter ++;
       } else {
-        /*If no sw has been done AND the dection is "asc",
-        set the dection to "desc" and run the while loop again.*/
-        //Si no se ha realizado un switch y la detección es ASC, se realiza la detección DESC
-        if (swC == 0 && d == "asc") {
-          d = "desc";
-          sw = true;
+        if (switchesCounter == 0 && sortType == "asc") {
+          sortType = "desc";
+          areWordsUnsorted = true;
         }
       }
     }
   }
   
-  var sortBtn = document.getElementById("sortBtn");
-  sortBtn.addEventListener("click", s, false );
-  sortBtn.ord = 'asc';
+  var sortButton = document.getElementById("sortBtn");
+  sortButton.addEventListener("click", sortListItems, false );
+  sortButton.sortType = 'asc';
